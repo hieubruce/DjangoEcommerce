@@ -38,6 +38,7 @@ def login_page(request):
     form = LoginForm(request.POST or None)
     context = {'form':form}
     print('User logged in')
+    print(request.user.is_authenticated)
     if form.is_valid():
 
         print(form.cleaned_data)
