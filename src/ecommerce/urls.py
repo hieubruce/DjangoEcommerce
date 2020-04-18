@@ -16,6 +16,7 @@ Including another URLconf
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 from django.contrib import admin
 from django.urls import path, re_path, include
@@ -33,12 +34,13 @@ from django.urls import path, re_path, include
 from .views import home_page, about_page, contact_page, login_page, register_page
 
 urlpatterns = [
-    path('', home_page),
-    path('about/',about_page),
-    path('contact/', contact_page),
-    path('login/', login_page),
-    path('register/', register_page),
-    path('products/', include("products.urls")), #our app
+    path('', home_page, name='home'),
+    path('about/',about_page, name='about'),
+    path('contact/', contact_page, name='contact'),
+    path('login/', login_page, name='login'),
+    path('register/', register_page, name='register'),
+    path('bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html')),
+    path('products/', include(("products.urls", "products"), namespace='products')), #our app
     # path('featured/', ProductFeaturedListView.as_view()),
     # re_path(r'^featured/(?P<pk>[\w.@+-]+)/$', ProductFeaturedDetailView.as_view()),
     # path('products/', ProductListView.as_view()),
