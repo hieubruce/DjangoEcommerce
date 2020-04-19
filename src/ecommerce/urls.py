@@ -41,6 +41,7 @@ urlpatterns = [
     path('register/', register_page, name='register'),
     path('bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html')),
     path('products/', include(("products.urls", "products"), namespace='products')), #our app
+    path('search/', include(("search.urls", "search"), namespace='search')),
     # path('featured/', ProductFeaturedListView.as_view()),
     # re_path(r'^featured/(?P<pk>[\w.@+-]+)/$', ProductFeaturedDetailView.as_view()),
     # path('products/', ProductListView.as_view()),
