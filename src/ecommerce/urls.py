@@ -24,6 +24,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from accounts.views import login_page, register_page, guest_register_view
 from .views import home_page, about_page, contact_page
+from carts.views import cart_detail_api_view
 
 urlpatterns = [
     path('', home_page, name='home'),
@@ -34,6 +35,7 @@ urlpatterns = [
     path('checkout/address/reuse/', checkout_address_reuse_view, name='checkout_address_reuse'),
     path('register/guest', guest_register_view, name='guest_register'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('api/cart/', cart_detail_api_view, name='api-cart'),
     path('cart/', include(("carts.urls", "cart"), namespace='cart')),
     path('register/', register_page, name='register'),
     path('bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html')),
