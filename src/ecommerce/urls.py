@@ -25,6 +25,7 @@ from django.urls import path, re_path, include
 from accounts.views import LoginView, RegisterView, guest_register_view
 from .views import home_page, about_page, contact_page
 from carts.views import cart_detail_api_view
+from billing.views import payment_method_view, payment_method_createview
 
 urlpatterns = [
     path('', home_page, name='home'),
@@ -37,6 +38,8 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('api/cart/', cart_detail_api_view, name='api-cart'),
     path('cart/', include(("carts.urls", "cart"), namespace='cart')),
+    path('billing/payment-method/', payment_method_view, name='billing-payment-method'),
+    path('billing/payment-method/create/', payment_method_createview, name='billing-payment-method-endpoint'),
     path('register/', RegisterView.as_view(), name='register'),
     path('bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html')),
     path('products/', include(("products.urls", "products"), namespace='products')), #our app
