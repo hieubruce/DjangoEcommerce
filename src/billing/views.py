@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.utils.http import is_safe_url
-from .models import BillingProfile
+from .models import BillingProfile, Card
+from django.conf import settings
 
 import stripe
 
-stripe.api_key = 'sk_test_lMq33pt3b07UWrvP353KMFJC00m8YDnA4p'
-STRIPE_PUB_KEY = 'pk_test_tx0dUvoBhJxNLlAuZfnGwTgx00aNvAEWIm'
+STRIPE_SECRET_KEY = getattr(settings, 'STRIPE_SECRET_KEY', 'sk_test_lMq33pt3b07UWrvP353KMFJC00m8YDnA4p')
+STRIPE_PUB_KEY = getattr(settings, 'STRIPE_PUB_KEY', 'pk_test_tx0dUvoBhJxNLlAuZfnGwTgx00aNvAEWIm')
+
+stripe.api_key = STRIPE_SECRET_KEY
 
 def payment_method_view(request):
     # if request.user.is_authenticated:
@@ -31,10 +34,6 @@ def payment_method_createview(request):
 
         token = request.POST.get('token')
         if token is not None:
-            customer = stripe.Customer.create_source(
-                billing_profile.customer_id,
-                source=token,
-                )
-            print(customer)
+            new_card_obj = Card.objects.add_new(billing_profile, token)
         return JsonResponse({'message':'Success! Your card was added.'})
     return HttpResponse('error', status_code=401)
