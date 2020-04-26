@@ -85,7 +85,7 @@ $(document).ready(function() {
 
   function displaySearching() {
     searchBtn.addClass('disable');
-    searchBtn.html("<i class='fas fa-spinner'></i> Searching...");
+    searchBtn.html("<i class='fa fa-spin fa-spinner'></i> Searching...");
   }
 
   function perfomSearch() {

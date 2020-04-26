@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from accounts.models import GuestEmail
 from django.db.models.signals import pre_save, post_save
+from django.urls import reverse
 import stripe
 
 stripe.api_key = 'sk_test_lMq33pt3b07UWrvP353KMFJC00m8YDnA4p'
@@ -43,7 +44,10 @@ class BillingProfile(models.Model):
         return Charge.objects.do(self, order_obj, card)
 
     def get_card(self):
-        return self.card_set.all()
+        return self.card_set.all() # Card.objects.filter(billing_profile=selff, active = True )
+
+    def get_payment_method_url(self):
+        return reverse('billing-payment-method')
 
     @property
     def has_card(self):
@@ -52,10 +56,15 @@ class BillingProfile(models.Model):
 
     @property
     def default_card(self):
-        default_cards = self.get_card().filter(default = True)
+        default_cards = self.get_card().filter(active = True, default = True)
         if default_cards.exists():
             return default_cards.first()
         return None
+
+    def set_cards_inactive(self):
+        cards_qs = self.get_card()
+        cards_qs.update(active=False)
+        return cards_qs.filter(active=True).count()
 
 def billing_profile_created_reciever(sender, instance, *args, **kwargs):
     if not instance.customer_id and instance.email:
@@ -118,7 +127,13 @@ class Card(models.Model):
     def __str__(self):
         return '{} {}'.format(self.brand, self.last4)
 
+def new_card_post_save_reciever(sender, instance, created, *args, **kwargs):
+    if instance.default:
+        billing_profile = instance.billing_profile
+        qs = Card.objects.filter(billing_profile= billing_profile).exclude(pk = instance.pk)
+        qs.update(default = False)
 
+post_save.connect(new_card_post_save_reciever, sender = Card)
 
 class ChargeManager(models.Manager):
     def do(self, billing_profile, order_obj, card = None):
