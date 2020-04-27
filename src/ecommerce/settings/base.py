@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'products',
     'orders',
     'carts',
+    # 'marketing',
     'search',
     'tags',
 ]
@@ -53,6 +54,10 @@ AUTH_USER_MODEL = 'accounts.User'
 
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_ENDSESSION= False
+
+MAILCHIMP_API_KEY           = "babe8887f4b4ddef3632f26ac4fc8ec2-us8"
+MAILCHIMP_DATA_CENTER       = 'us8'
+MAILCHIMP_EMAIL_LIST_ID     = 'b738dbd833'
 
 STRIPE_SECRET_KEY = 'sk_test_lMq33pt3b07UWrvP353KMFJC00m8YDnA4p'
 STRIPE_PUB_KEY = 'pk_test_tx0dUvoBhJxNLlAuZfnGwTgx00aNvAEWIm'
