@@ -6,11 +6,10 @@ from .forms import ContactForm
 
 def home_page(request):
     content={
-        'title':'Hello World!',
         'content':'Wellcome to the home page.'
     }
     if request.user.is_authenticated:
-        content['premium_content'] = 'YEAHHHH'
+        content['premium_content'] = 'User LOGIN'
     return render(request, 'home_page.html', content)
 
 def about_page(request):

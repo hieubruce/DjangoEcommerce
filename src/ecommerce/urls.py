@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth.views import LogoutView
 from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 
@@ -30,6 +30,10 @@ from billing.views import payment_method_view, payment_method_createview
 urlpatterns = [
     path('', home_page, name='home'),
     path('about/',about_page, name='about'),
+    #path('accounts/login/', RedirectView.as_view(url='/login')),
+    path('accounts/', RedirectView.as_view(url='/account')),
+    path('account/', include(("accounts.urls", "accounts"), namespace='account')),
+    path('accounts/', include("accounts.passwords.urls")),
     path('contact/', contact_page, name='contact'),
     path('login/', LoginView.as_view(), name='login'),
     path('checkout/address/create/', checkout_address_create_view, name='checkout_address_create'),
@@ -42,6 +46,7 @@ urlpatterns = [
     path('billing/payment-method/create/', payment_method_createview, name='billing-payment-method-endpoint'),
     path('register/', RegisterView.as_view(), name='register'),
     path('bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html')),
+    path('orders/', include(("orders.urls", "orders"), namespace='orders')),
     path('products/', include(("products.urls", "products"), namespace='products')), #our app
     path('search/', include(("search.urls", "search"), namespace='search')),
     path('admin/', admin.site.urls),

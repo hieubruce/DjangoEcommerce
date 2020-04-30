@@ -2,14 +2,31 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, get_user_model
 from django.utils.http import is_safe_url
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, DetailView, UpdateView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .signals import user_logged_in
+from django.urls import reverse
 
-from .forms import LoginForm, RegisterForm, GuestForm
+from .forms import LoginForm, RegisterForm, GuestForm, UserDetailChangeForm
 
 from .models import GuestEmail
 
 # Create your views here.
+
+
+# @login_required # /accounts/login/?next=/some/path
+# def account_home_view(request):
+#     return render(request, 'accounts/home.html', {})
+
+
+class AccountHomeView(LoginRequiredMixin, DetailView):
+    template_name = 'accounts/home.html'
+    def get_object(self):
+        return self.request.user
+
+
 def guest_register_view(request):
     form = GuestForm(request.POST or None)
     context = {'form':form }
@@ -96,3 +113,18 @@ class RegisterView(CreateView):
 #     if form.is_valid():
 #         form.save()
 #     return render(request,'accounts/register.html', context)
+
+class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = UserDetailChangeForm
+    template_name = 'accounts/detail-update-view.html'
+
+    def get_object(self):
+        return self.request.user
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(UserDetailUpdateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Change Your Account Details'
+        return context
+
+    def get_success_url(self):
+        return reverse('account:home')
