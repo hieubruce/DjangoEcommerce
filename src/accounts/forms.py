@@ -7,19 +7,22 @@ User = get_user_model()
 class UserAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='Mật khẩu', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Xác nhận mật khẩu', widget=forms.PasswordInput)
 
     class Meta:
         model = User
         fields = ('full_name', 'email',) #'full_name',)
+        labels = {
+            "full_name": "Họ tên",
+        }
 
     def clean_password2(self):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            raise forms.ValidationError("Mật khẩu không trùng khớp")
         return password2
 
     def save(self, commit=True):
@@ -32,7 +35,7 @@ class UserAdminCreationForm(forms.ModelForm):
 
 
 class UserDetailChangeForm(forms.ModelForm):
-    full_name = forms.CharField(label='Name', required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
+    full_name = forms.CharField(label='Họ tên', required=False, widget=forms.TextInput(attrs={'class':'form-control'}))
     class Meta:
         model = User
         fields = ('full_name',)
@@ -56,22 +59,31 @@ class UserAdminChangeForm(forms.ModelForm):
 
 
 class GuestForm(forms.Form):
-    email = forms.EmailField()
+    email = forms.EmailField(label = 'Email', widget=forms.EmailInput(attrs={'class':'form-control'}))
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label = 'Email')
-    password = forms.CharField(widget = forms.PasswordInput())
+    email = forms.EmailField(label = 'Email', widget=forms.EmailInput(attrs={'class':'form-control'}))
+    password = forms.CharField(label = 'Mật khẩu',widget = forms.PasswordInput(attrs={'class':'form-control'}))
 
 
 class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='Mật khẩu', widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    password2 = forms.CharField(label='Xác nhận mật khẩu', widget=forms.PasswordInput(attrs={'class':'form-control'}))
+
 
     class Meta:
         model = User
         fields = ('full_name', 'email',) #'full_name',)
+        labels = {
+            "full_name": "Họ tên",
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['full_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
 
     def clean_password2(self):
         # Check that the two password entries match

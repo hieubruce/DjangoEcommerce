@@ -8,12 +8,12 @@ class ContactForm(forms.Form):
             widget=forms.TextInput(
                 attrs={
                     'class':'form-control',
-                    'placeholder':'Your full name'
+                    'placeholder':'Họ tên của bạn'
                     }
                 )
             )
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control','placeholder':'Your email'}))
-    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Your message'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control','placeholder':'Email của bạn'}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Lời nhắn của bạn'}))
 
     # def clean_email(self):
     #     email = self.cleaned_data.get('email')
