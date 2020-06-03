@@ -75,10 +75,10 @@ class Order(models.Model):
 
     def get_status(self):
         if self.status == 'refunded':
-            return 'Refunded Order'
+            return 'Hoàn lại đơn hàng'
         elif self.status == 'shipped':
             return 'Shipped'
-        return 'Shipping Soon'
+        return 'Đang giao'
 
     def update_total(self):
         cart_total = self.cart.total

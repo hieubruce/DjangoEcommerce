@@ -6,7 +6,7 @@ from analytics.mixins import ObjectViewedMixin
 
 from carts.models import Cart
 
-from .models import Product
+from .models import Product, Category
 # Create your views here.
 
 
@@ -108,3 +108,13 @@ def product_detail_view(request, pk, *args,**kwargs):
         'object':instance
     }
     return render(request, 'products/detail.html', context)
+
+def list_of_product_by_category(request, category_slug):
+    categories = Category.objects.all()
+    product = Product.objects.filter(active = True)
+    if category_slug:
+        category = get_object_or_404(Category, slug = category_slug)
+        product = product.filter(category = category)
+    template = 'products/list_of_product_by_category.html'
+    context = {'categories': categories, 'product':product, 'category':category}
+    return render(request, template, context)

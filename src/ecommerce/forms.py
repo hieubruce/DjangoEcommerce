@@ -5,6 +5,7 @@ User = get_user_model()
 
 class ContactForm(forms.Form):
     fullname = forms.CharField(
+            label = "Họ tên",
             widget=forms.TextInput(
                 attrs={
                     'class':'form-control',
@@ -13,7 +14,7 @@ class ContactForm(forms.Form):
                 )
             )
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control','placeholder':'Email của bạn'}))
-    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Lời nhắn của bạn'}))
+    content = forms.CharField(label = "Nội dung",widget=forms.Textarea(attrs={'class': 'form-control'}))
 
     # def clean_email(self):
     #     email = self.cleaned_data.get('email')

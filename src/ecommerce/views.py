@@ -29,7 +29,7 @@ def contact_page(request):
     if contact_form.is_valid():
         print(contact_form.cleaned_data)
         if request.is_ajax():
-            return JsonResponse({'message':'Thank you for your submission'})
+            return JsonResponse({'message':'Cảm ơn phản hồi của bạn.'})
 
     if contact_form.errors:
         errors = contact_form.errors.as_json()

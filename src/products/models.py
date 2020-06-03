@@ -55,8 +55,25 @@ class ProductManager(models.Manager):
     def search(self, query):
         return self.get_queryset().active().search(query)
 
+class Category(models.Model):
+    name = models.CharField(max_length = 120)
+    slug = models.SlugField(blank = True, unique = True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
+    def get_absolute_url(self):
+        return reverse('products:list_of_product_by_category',args=self.slug )
+    def __str__(self):
+        return self.name
+
+
+
 class Product(models.Model):
     title = models.CharField(max_length = 120)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE, related_name='category', null = True, blank = True)
     slug = models.SlugField(blank = True, unique = True)
     description = models.TextField()
     price = models.DecimalField(max_digits= 20, decimal_places = 2, default = 19.99)
@@ -71,6 +88,10 @@ class Product(models.Model):
     def get_absolute_url(self):
         # return "/products/{slug}".format(slug = self.slug)
         return reverse('products:detail',kwargs={"slug":self.slug} )
+
+    @property
+    def get_products(self):
+        return Product.objects.filter(category__name=self.name)
 
 
     def __str__(self):

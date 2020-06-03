@@ -85,7 +85,7 @@ $(document).ready(function() {
 
   function displaySearching() {
     searchBtn.addClass('disable');
-    searchBtn.html("<i class='fa fa-spin fa-spinner'></i> Searching...");
+    searchBtn.html("<i class='fa fa-spin fa-spinner'></i> Đang tìm kiếm...");
   }
 
   function perfomSearch() {
@@ -115,9 +115,9 @@ $(document).ready(function() {
       success: function(data) {
         var submitSpan = thisForm.find(".submit-span");
         if (data.added) {
-          submitSpan.html("<div class='btn-group'> <a class='btn btn-link' href='/cart/'>In cart</a> <button type='submit' class='btn btn-link'>Remove?</button></div>");
+          submitSpan.html("<div class='btn-group'> <a class='btn btn-link' href='/cart/'>Vào giỏ hàng</a> <button type='submit' class='btn btn-link'>Xóa?</button></div>");
         } else {
-          submitSpan.html("<button type='submit'  class='btn btn-success'>Add to cart</button>");
+          submitSpan.html("<button type='submit'  class='btn btn-success'>Thêm vào giỏ hàng</button>");
         }
         var navbarCount = $(".navbar-cart-count");
         navbarCount.text(data.cartItemCount);

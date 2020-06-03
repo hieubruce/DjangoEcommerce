@@ -22,7 +22,7 @@
   {% if not object.shipping_address %}
   <div class='row'>
             <div class='col-12'>
-                <p class='lead'>Shipping Address</p>
+                <p class='lead'>Địa chỉ giao hàng</p>
                 <hr/>
             </div>
             <div class='col-6'>
@@ -40,7 +40,7 @@
 
   <div class='row'>
             <div class='col-12'>
-                 <p class='lead'>Billing Address</p>
+                 <p class='lead'>Địa chỉ thanh toán</p>
                 <hr/>
             </div>
             <div class='col-6'>
@@ -63,17 +63,17 @@
       data-next-url='{{request.build_absolute_uri}}' data-btn-title="Add Payment Method"></div>
     {%else%}
 
-      <h1>Finalize Checkout</h1>
+      <h1>Hoàn tất thanh toán</h1>
 
-      <p>Cart Item: {% for product in object.cart.products.all %}{{product}}{%if not forloop.last %}, {%endif%}{%endfor%}</p>
-      <p>Shipping Address: {{object.shipping_address.get_address}}</p>
-      <p>Billing Address: {{object.shipping_address.get_address}}</p>
-      <p>Payment Method: {{billing_profile.default_card}} (<a href="{{billing_profile.get_payment_method_url}}?next={{ request.build_absolute_uri }}">Change</a>)</p>
-      <p>Cart Total: {{object.cart.total}}</p>
-      <p>Shipping Total: {{object.shipping_total}}</p>
-      <p>Order Total: {{object.total}}</p>
+      <p>Sản phẩm: {% for product in object.cart.products.all %}{{product}}{%if not forloop.last %}, {%endif%}{%endfor%}</p>
+      <p>Địa chỉ giao hàng: {{object.shipping_address.get_address}}</p>
+      <p>Địa chỉ thanh toán: {{object.shipping_address.get_address}}</p>
+      <p>Phương thức thanh toán: {{billing_profile.default_card}} (<a href="{{billing_profile.get_payment_method_url}}?next={{ request.build_absolute_uri }}">Thay đổi</a>)</p>
+      <p>Chi phí đơn hàng: {{object.cart.total}}</p>
+      <p>Chi phí vận chuyển: {{object.shipping_total}}</p>
+      <p>Tổng hóa đơn: {{object.total}}</p>
       <form class="form" action="" method="post">{% csrf_token %}
-        <button type="submit" class="btn btn-success">Checkout</button>
+        <button type="submit" class="btn btn-success">Thanh toán</button>
       </form>
     {%endif%}
   {% endif %}

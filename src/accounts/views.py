@@ -123,7 +123,7 @@ class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(UserDetailUpdateView, self).get_context_data(*args, **kwargs)
-        context['title'] = 'Change Your Account Details'
+        context['title'] = 'Cập nhật tài khoản'
         return context
 
     def get_success_url(self):

@@ -3,7 +3,7 @@ $(document).ready(function(){
     var stripeFormModule = $('.stripe-payment-form')
     var stripeModuleToken = stripeFormModule.attr('data-token');
     var stripeModuleNextUrl = stripeFormModule.attr('data-next-url');
-    var stripeModuleBtnTitle = stripeFormModule.attr('data-btn-title') || "Add card";
+    var stripeModuleBtnTitle = stripeFormModule.attr('data-btn-title') || "Thêm thẻ thanh toán";
     var stripeTemplate = $.templates('#stripeTemplate')
     var stripeTemplateDataContext = {
       publishKey: stripeModuleToken,
@@ -163,10 +163,10 @@ $(document).ready(function(){
           url: paymentMethodEndpoint,
           method: 'POST',
           success: function(data) {
-            var successMsg = data.message || "Success! Your card was added"
+            var successMsg = data.message || "Thành công! Thẻ của bạn đã được thêm vào"
             card.clear()
             if(nextUrl){
-              successMsg = successMsg + '<br /><br /><i class="fa fa-spin fa-spinner"></i> Redirecting...'
+              successMsg = successMsg + '<br /><br /><i class="fa fa-spin fa-spinner"></i> Đang chuyển hướng...'
             }
             if($.alert){
               $.alert(successMsg)
@@ -179,7 +179,7 @@ $(document).ready(function(){
           },
           error: function(error) {
             console.log(error)
-            $.alert({title: 'An error occurred', content: 'Please try adding your card again.'});
+            $.alert({title: 'Đã có lỗi xảy ra', content: 'Hãy thử thểm thẻ thanh toán của bạn lại lần nữa.'});
             btnLoad.html(btnLoadDefaultHtml);
             btnLoad.attr('class', btnLoadDefaultClasses);
           }
